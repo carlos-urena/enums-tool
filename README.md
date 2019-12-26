@@ -8,7 +8,7 @@ https://github.com/Neargye/magic_enum/blob/master/include/magic_enum.hpp
 
 ## Sample usage:
 
-See this code from main.cpp :
+See this code (file **main.cpp**) :
 
 ```cpp
 #include <enums_tool.h>
