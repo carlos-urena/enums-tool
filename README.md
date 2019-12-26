@@ -11,4 +11,4 @@ Features, limitations:
 * works for both classic enums and enum class.
 * max number of values in the enum cannot be larger than 'max_enums' constant (currently defined as 255)
 * doesn't work if you explicitly assign integral values for representing the enums (it only works fine for consecutive integers starting at 0).
-* only works for compilers with suitable __PRETTY_FUNCTION__ macro, that is LLVM clang++ and GNU g++  (Microsoft VC has an equivalent macro but I have not adpated the code for this compiler yet) 
+* only works for compilers with suitable __PRETTY_FUNCTION__ macro, that is LLVM clang++ and GNU g++  (Microsoft VC has an equivalent macro but I have not adapted the code for this compiler yet) 
