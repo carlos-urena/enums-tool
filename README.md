@@ -11,17 +11,22 @@ https://github.com/Neargye/magic_enum/blob/master/include/magic_enum.hpp
 See this code from main.cpp :
 
 ```cpp
+#include <enums_tool.h>
+
+using namespace std ;
+using namespace enums_tool ;
+   
+int main( )
+{
    enum EnumT  { cero0, second1, the_third123, almost_done, last_the_fourth_4 } ;
-
-   using namespace enums_tool ;
-   using namespace std ;
-
+   
    cout << "name of enum type    = " << type_name_string<EnumT>() << endl
         << "num of values        = " << num_of_values<EnumT>() << endl
         << "list of values names = " << endl ;
 
    for ( EnumT v = first<EnumT>() ; v <= last<EnumT>() ; v++  )
       cout << "   " << name_string(v) << endl ;
+}
 ```
   
 ## Features, limitations:
