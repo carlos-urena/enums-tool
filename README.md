@@ -10,7 +10,7 @@ The main idea is to use the __PRETTY_FUNCTION__ macro in a function template (wh
 
 See this code from main.cpp :
 
-```
+```cpp
    enum EnumT  { cero0, second1, the_third123, almost_done, last_the_fourth_4 } ;
 
    using namespace enums_tool ;
