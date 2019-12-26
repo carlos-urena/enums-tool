@@ -4,7 +4,7 @@ A C++11 header-only library for getting strings and values count from an enumera
 
 The main idea is to use the __PRETTY_FUNCTION__ macro in a function template (whose name includes enumerated values identifiers). I got this idea from 'magic_enum' equivalent header, but I have adapted that so its works with C++11, see :
 
-      https://github.com/Neargye/magic_enum/blob/master/include/magic_enum.hpp
+https://github.com/Neargye/magic_enum/blob/master/include/magic_enum.hpp
 
 ## Sample usage:
 
