@@ -144,14 +144,14 @@ template <typename E, E value>  constexpr const char * ce_string_after( const ch
 
 template <typename E>  constexpr const char * ce_type_name_str()
 {
-   return ce_string_after<E>( "[E = ") ;
+   return ce_string_after<E>( "E = ") ;
 }
 // -------------------------------------------------------------------------------------------------
 
 template <typename E, E value>  constexpr const char * ce_value_name_from_enum()
 {
 #  if defined(__GNUC__)
-     return ce_string_after<E,value>( "E = ") ;
+     return ce_string_after<E,value>( "value = ") ;
 #  elif defined(__clang__)
      return ce_string_after<E,value>( ", value = ") ;
 #  elif defined(_MSC_VER)
