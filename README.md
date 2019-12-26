@@ -14,8 +14,7 @@ See this code from main.cpp :
    enum EnumT  { cero0, second1, the_third123, almost_done, last_the_fourth_4 } ;
 
    using namespace enums_tool ;
-   print_compiler_info();
-
+  
    using namespace std ;
 
    cout << "name of enum type    = " << type_name_string<EnumT>() << endl
