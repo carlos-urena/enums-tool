@@ -2,6 +2,7 @@
 // Carlos Ureña
 //
 // A C++11 header-only library for getting strings and count from a enumerated type and its values
+// hosted in github: https://github.com/carlos-urena/enums-tool/blob/master/enums_tool.h
 //
 // Ideas taken from 'magic_enum', see :
 //      https://github.com/Neargye/magic_enum/blob/master/include/magic_enum.hpp
