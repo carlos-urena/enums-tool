@@ -1,11 +1,12 @@
 # enums-tool
-A C++11 header-only library for getting strings and count from a enumerated type and its values
+
+A C++11 header-only library for getting strings and values count from an enumerated type and its values
 
 The main idea (use a macro in a function template) is taken from 'magic_enum', but I have adapted this so its works with C++11, see :
 
       https://github.com/Neargye/magic_enum/blob/master/include/magic_enum.hpp
 
-Features, limitations:
+## Features, limitations:
 
 * works with -std=c++11
 * works for both classic enums and enum class.
