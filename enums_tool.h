@@ -1,10 +1,10 @@
 // C++11 enum tools
 // Carlos Ureña
 //
-// A C++11 header-only library for getting strings and count from an enumerated type 
+// A C++11 header-only library for getting strings and count from an enumerated type
 // and its values
 //
-// Hosted in github: 
+// Hosted in github:
 //    https://github.com/carlos-urena/enums-tool/blob/master/enums_tool.h
 //
 // Ideas taken from 'magic_enum', see :
@@ -17,11 +17,11 @@
 //
 // * works with -std=c++11
 // * works for both classic enums and enum class.
-// * max number of values in the enum type cannot be larger than 'max_enums' 
+// * max number of values in the enum type cannot be larger than 'max_enums'
 //   constant (defined as 255, can be changed)
 // * doesn't work if you explicitly assign integral values for representing the enums.
 //   (it only works fine for consecutive integers starting at 0)
-// * only works for compilers with suitable __PRETTY_FUNCTION__ macro 
+// * only works for compilers with suitable __PRETTY_FUNCTION__ macro
 //   (that is, clang++ and g++) (MSVC has an equivalent one, but I still have not
 //   adapted the code to that compiler).
 //
@@ -78,6 +78,8 @@ namespace implementation
 constexpr int max_enums = 255 ; // for some reason, cannot be larger than 255 in 'godbolt' ?
 
 // -------------------------------------------------------------------------------------------------
+// returns function name, which includes the enumerated type name
+
 template <typename E> constexpr const char * ce_raw_pf_str() noexcept
 {
 #  if defined(__clang__)
@@ -89,6 +91,7 @@ template <typename E> constexpr const char * ce_raw_pf_str() noexcept
 #  endif
 }
 // -------------------------------------------------------------------------------------------------
+// returns function name, which includes the enumerated type name and the value name
 
 template <typename E, E value> constexpr const char * ce_raw_pf_str() noexcept
 {
@@ -101,18 +104,21 @@ template <typename E, E value> constexpr const char * ce_raw_pf_str() noexcept
 #  endif
 }
 // -------------------------------------------------------------------------------------------------
+// returns the length of a cero-terminted string, plus 'cur_len', it is recursive
 
 constexpr int ce_length_rec( const char * str, int cur_len )
 {
    return *str == 0  ? cur_len : ce_length_rec( str+1, cur_len+1 ) ;
 }
 // -------------------------------------------------------------------------------------------------
+// returns the length of a cero-terminated string
 
 constexpr int ce_length( const char *str )
 {
    return str == nullptr ? 0 : ce_length_rec( str, 0 ) ;
 }
 // -------------------------------------------------------------------------------------------------
+// (tail) recursive search for a substring in a string, invoked from 'ce_rfind'
 
 constexpr int ce_rfind_rec( const char *str_cur, const char *sub_cur, const char * sub_beg,
                             const int str_cur_idx, const int str_match_idx )
@@ -127,12 +133,15 @@ constexpr int ce_rfind_rec( const char *str_cur, const char *sub_cur, const char
          ce_rfind_rec( str_cur+1, sub_beg, sub_beg, str_cur_idx+1,  -1 ) ;
 }
 // -------------------------------------------------------------------------------------------------
+// searchd for 'sub' in 'str' (cero-terminated strings), recursively.
+// returns -1 when not found or position when found
 
 constexpr int ce_rfind( const char *str, const char *sub )
 {
    return str == nullptr || sub == nullptr ? -1 : ce_rfind_rec( str, sub, sub, 0, 0 );
 }
 // -------------------------------------------------------------------------------------------------
+// returns a pointer to the string after 'sub' in the string with the name of enum type E
 
 template <typename E>  constexpr const char * ce_string_after( const char * sub )
 {
@@ -140,18 +149,21 @@ template <typename E>  constexpr const char * ce_string_after( const char * sub 
    return PTR0 + ce_rfind( PTR0, sub ) + ce_length( sub );
 }
 // -------------------------------------------------------------------------------------------------
+// returns a pointer to the string after 'sub' in the string with the name of value 'value'
 
 template <typename E, E value>  constexpr const char * ce_string_after( const char * sub )
 {
    return ce_raw_pf_str<E,value>() + ce_rfind( ce_raw_pf_str<E,value>(), sub ) + ce_length( sub );
 }
 // -------------------------------------------------------------------------------------------------
+// returns a pointer to the cero-terminated string with the name of type E
 
 template <typename E>  constexpr const char * ce_type_name_str()
 {
    return ce_string_after<E>( "E = ") ;
 }
 // -------------------------------------------------------------------------------------------------
+// returns a pointer to the cero-terminated string with the name of the value 'value'
 
 template <typename E, E value>  constexpr const char * ce_value_name_from_enum()
 {
@@ -179,6 +191,8 @@ template <typename E, int k> constexpr bool ce_is_in_range(  )
 #  endif
 }
 // -------------------------------------------------------------------------------------------------
+// returns the name of a value from its integer representation
+// (returns 'out of range' when the integer is out of the enum type's range)
 
 template <typename E, int k> constexpr const char * ce_value_name_from_int(  )
 {
@@ -187,25 +201,31 @@ template <typename E, int k> constexpr const char * ce_value_name_from_int(  )
         : "** out of range ** " ;
 }
 // -------------------------------------------------------------------------------------------------
+// struct template which holds a single integer (as a static member) for each enum type 'E'
+//
+//   if 'k' is equal or above the number of values in E, it holds the number of values in E
+//   if 'k' is below that number of values, it holds 'k'
 
 template <typename E, int k> struct num_values_rec_str
 {
    static constexpr int num_values = ce_is_in_range<E,k>() ? k : num_values_rec_str<E,k-1>::num_values ;
 } ;
 // -------------------------------------------------------------------------------------------------
+// specialization of the above struct for k=1, it holds number 1 allways
 
 template <typename E> struct num_values_rec_str<E,1>
 {
    static constexpr int num_values = 1 ;
 } ;
 // -------------------------------------------------------------------------------------------------
+// returns the number of values in type E
 
 template <typename E> constexpr int ce_num_values()
 {
    return 1 + num_values_rec_str<E,max_enums>::num_values ;
 }
 // -------------------------------------------------------------------------------------------------
-// struct with k+1 pointers  to zero-terminated strings
+// struct with k+1 pointers  to zero-terminated strings with values names
 
 template< typename E, int k > struct ptrs_array_struct
 {
@@ -220,6 +240,7 @@ template< typename E> struct ptrs_array_struct<E,0>
 {
    const char * ptr = ce_value_name_from_int<E,0>();
 } ;
+// -------------------------------------------------------------------------------------------------
 
 } // end of 'implementation' namespace
 
@@ -236,10 +257,10 @@ template<typename E> std::string  type_name_string(  )
    static constexpr const char * str_ptr         = ce_type_name_str<E>(); // get raw string
    static constexpr int          len             = ce_length( str_ptr ) ;  // get raw string length
    static std::string            name_string_raw = std::string( str_ptr, len-1 ) ; // build string just once
-   static const auto             pos             = name_string_raw.rfind( "::" ) ;
-   static std::string            name_string     = pos != std::string::npos ? name_string_raw.substr( pos+2 ) : name_string_raw ;
+   static const auto             pos             = name_string_raw.rfind( "::" ); // find ::
+   static std::string            name_string     = pos != std::string::npos ? name_string_raw.substr( pos+2 ) : name_string_raw ; // if '::' is found, compute the string after it, else return the raw string
 
-   return name_string ;
+   return name_string ; // done
 }
 // -------------------------------------------------------------------------------------------------
 // returns the name of a enum value, from an integer.
