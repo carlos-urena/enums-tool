@@ -17,11 +17,13 @@
 //
 // * works with -std=c++11
 // * works for both classic enums and enum class.
-// * max number of values in the enum cannot be larger than 'max_enums' constant (defined as 256)
+// * max number of values in the enum type cannot be larger than 'max_enums' 
+//   constant (defined as 255, can be changed)
 // * doesn't work if you explicitly assign integral values for representing the enums.
 //   (it only works fine for consecutive integers starting at 0)
-// * only works for compilers with suitable __PRETTY_FUNCTION__ macro (MSVC has an equivalent one)
-//   (that is, clang++ and g++)
+// * only works for compilers with suitable __PRETTY_FUNCTION__ macro 
+//   (that is, clang++ and g++) (MSVC has an equivalent one, but I still have not
+//   adapted the code to that compiler).
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 // SPDX-License-Identifier: MIT
