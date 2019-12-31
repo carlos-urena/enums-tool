@@ -233,9 +233,11 @@ template<typename E> std::string  type_name_string(  )
 {
    using namespace implementation ;
 
-   static constexpr const char * str_ptr     = ce_type_name_str<E>(); // get raw string
-   static constexpr int          len         = ce_length( str_ptr ) ;  // get raw string length
-   static std::string            name_string = std::string( str_ptr, len-1 ) ; // build string just once
+   static constexpr const char * str_ptr         = ce_type_name_str<E>(); // get raw string
+   static constexpr int          len             = ce_length( str_ptr ) ;  // get raw string length
+   static std::string            name_string_raw = std::string( str_ptr, len-1 ) ; // build string just once
+   static const auto             pos             = name_string_raw.rfind( "::" ) ;
+   static std::string            name_string     = pos != std::string::npos ? name_string_raw.substr( pos+2 ) : name_string_raw ;
 
    return name_string ;
 }
