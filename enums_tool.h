@@ -1,13 +1,17 @@
 // C++11 enum tools
 // Carlos Ureña
 //
-// A C++11 header-only library for getting strings and count from an enumerated type and its values
-// hosted in github: https://github.com/carlos-urena/enums-tool/blob/master/enums_tool.h
+// A C++11 header-only library for getting strings and count from an enumerated type 
+// and its values
+//
+// Hosted in github: 
+//    https://github.com/carlos-urena/enums-tool/blob/master/enums_tool.h
 //
 // Ideas taken from 'magic_enum', see :
-//      https://github.com/Neargye/magic_enum/blob/master/include/magic_enum.hpp
+//    https://github.com/Neargye/magic_enum/blob/master/include/magic_enum.hpp
 // (but simplified so its works in C++11)
-// use 'print_enum_info<E>()' to test the features, for any enum type 'E'
+//
+// (use 'print_enum_info<E>()' to test the features, for any enum type 'E')
 //
 // Features, limitations:
 //
@@ -18,7 +22,6 @@
 //   (it only works fine for consecutive integers starting at 0)
 // * only works for compilers with suitable __PRETTY_FUNCTION__ macro (MSVC has an equivalent one)
 //   (that is, clang++ and g++)
-//
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 // SPDX-License-Identifier: MIT
